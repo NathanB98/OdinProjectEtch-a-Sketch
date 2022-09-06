@@ -1,3 +1,4 @@
-.gridSquare {
-    background-color: aqua;
+#container {
+    display: grid;
+    grid-auto-rows: minmax(1px, auto);
 }
