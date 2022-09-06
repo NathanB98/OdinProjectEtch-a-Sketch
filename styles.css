@@ -1,4 +1,20 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 5rem;
+}
+
 #container {
     display: grid;
     grid-auto-rows: minmax(1px, auto);
+}
+
+#gridSizeSelect {
+    margin-top: 2rem;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 1rem;
 }
