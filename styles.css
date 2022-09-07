@@ -3,7 +3,6 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     gap: 5rem;
 }
 
@@ -17,4 +16,10 @@ body {
     font-size: 18px;
     font-weight: bold;
     padding: 1rem;
+}
+
+.gridSquare {
+    border: 0.1rem solid black;
+    height: 2rem;
+    width: 2rem;
 }

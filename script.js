@@ -7,11 +7,11 @@ let GRID_VOLUME = GRID_LENGTH * GRID_LENGTH;
 let pixel;
 
 //Updates container div style to divide the grid appropriately given the GRID_LENGTH
-container.style.gridTemplateColumns = `repeat(${GRID_LENGTH}, 0fr)`;
+container.style.gridTemplateColumns = `repeat(${GRID_LENGTH}, auto)`;
 
 initialiseCanvas();
 
-//creates initial 16x16 canvas, updates the pixel object(storing each 'pixel' in the grid), and checks for mouseover on any pixel
+//Creates initial 16x16 canvas, updates the pixel object(storing each 'pixel' in the grid), and checks for mouseover on any pixel
 function initialiseCanvas() {
     createCanvisGrid();
 
@@ -36,28 +36,24 @@ function createCanvisGrid() {
         let gridSquare = document.createElement('div');
 
         gridSquare.classList.add('gridSquare');
-        gridSquare.style.height = '2rem';
-        gridSquare.style.width = '2rem';
-        gridSquare.style.backgroundColor = 'Blue';
-        gridSquare.style.border = 'Solid Black'
 
         container.appendChild(gridSquare);
     }
-    //sets the style property of container to correctly divide the grid into a 1:1 square
+    //Sets the style property of container to correctly divide the grid into a 1:1 square
     container.style.gridTemplateColumns = `repeat(${GRID_LENGTH}, 0fr)`;
 }
 
-//updates the pixel object, needed if the size of the grid changes
+//Updates the pixel object, needed if the size of the grid changes
 function updatePixelCount() {
-    //pixel contains an array-like object with each div/pixel in the grid
+    //Pixel contains an array-like object with each div/pixel in the grid
     pixel = null;
     pixel = document.getElementsByClassName('gridSquare');   
 }
 
-//select grid size and updates to show that new grid in place of the previous grid.
+//Select grid size and updates to show that new grid in place of the previous grid.
 function selectGridSize() {
     let newGridSize = prompt('Please enter the length of your canvas in pixels. (Max size: 100)');
-    //converts input to an integer number
+    //Converts input to an integer number
     newGridSize = Number(newGridSize);
     
     if(!(newGridSize < 1) && !(newGridSize > 100)) {
@@ -68,10 +64,7 @@ function selectGridSize() {
 
         GRID_LENGTH = newGridSize;
         GRID_VOLUME = GRID_LENGTH * GRID_LENGTH;
-        createCanvisGrid();
-        updatePixelCount();
-        console.log(pixel);
-        checkMouseHover();
+        initialiseCanvas();
 
     } else {
         alert('Please enter a valid number (1-100)');
