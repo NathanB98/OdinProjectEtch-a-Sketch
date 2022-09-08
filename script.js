@@ -1,11 +1,13 @@
 const container = document.querySelector('#container');
 
+const gridSize = document.getElementById('gridSizeSelect');
+const canvasResest = document.getElementById('clearCanvas');
 const colourPicker = document.getElementById('colourPicker');
 const paintBtn = document.getElementById('paintMode');
 const rainbowBtn = document.getElementById('rainbowMode');
 const eraserBtn = document.getElementById('eraserTool');
 
-
+//Default values for initialising the default canvas grid
 const DEFAULT_GRID_LENGTH = 16;
 const DEFAULT_GRID_VOLUME = DEFAULT_GRID_LENGTH * DEFAULT_GRID_LENGTH;
 const DEFAULT_BRUSH_COLOUR = '#000000';
@@ -16,11 +18,13 @@ let gridVolume = gridLength * gridLength;
 let brushColour = DEFAULT_BRUSH_COLOUR;
 let currentMode = DEFAULT_MODE;
 let pixel;
-let mouseDown = false;
 
+let mouseDown = false;
 document.body.onmousedown = () => (mouseDown = true);
 document.body.onmouseup = () => (mouseDown = false);
 
+gridSize.onclick = () => selectGridSize();
+canvasResest.onclick = () => clearCanvas();
 colourPicker.oninput = (e) => setBrushColour(e.target.value);
 paintBtn.onclick = () => setCurrentMode('colour');
 rainbowBtn.onclick = () => setCurrentMode('rainbow');
@@ -35,7 +39,8 @@ function setCurrentMode(newMode) {
     currentMode = newMode;
 }
 
-function createCanvisGrid(volume) {
+//Generates a new canvas, using the gridVolume value for the total number of 'pixels' in the grid.
+function createCanvasGrid(volume) {
     container.style.gridTemplateColumns = `repeat(${gridLength}, 1fr)`;
     container.style.gridTemplateRows = `repeat(${gridLength}, 1fr)`;
 
@@ -49,6 +54,7 @@ function createCanvisGrid(volume) {
     }
 }
 
+//Paints the appropriately selected mode to the canvas.
 function changeBrushColour(e) {
     if(e.type === 'mouseover' && !mouseDown) return;
     if(currentMode === 'rainbow') {
@@ -63,6 +69,7 @@ function changeBrushColour(e) {
     }
 }
 
+//Recieves a new grid size from the user for initialising a new canvas.
 function selectGridSize() {
     let newGridSize = prompt('Please enter the length of your canvas in pixels. (Max size: 100)');
     newGridSize = Number(newGridSize);
@@ -71,12 +78,13 @@ function selectGridSize() {
         clearGrid();
         gridLength = newGridSize;
         gridVolume = gridLength * gridLength;
-        createCanvisGrid(gridVolume);
+        createCanvasGrid(gridVolume);
     } else {
         alert('Please enter a valid number (1-100)');
     }
 }
 
+//Deletes the grid in its entirety
 function clearGrid() {
     let allPixels = document.querySelectorAll('.gridSquare');
         allPixels.forEach(px => {
@@ -100,17 +108,15 @@ function setPaintMode(newMode) {
     } else if(newMode === 'eraser') {
         eraserTool.classList.add('active');
     }
-
-    console.log(currentMode);
-    console.log(newMode);
 }
 
+//Deletes and re-initialises a grid. Effectively wipes the current canvas without changing its size.
 function clearCanvas() {
     clearGrid();
-    createCanvisGrid(gridVolume);
+    createCanvasGrid(gridVolume);
 }
 
 window.onload = () => {
-    createCanvisGrid(gridVolume);
+    createCanvasGrid(gridVolume);
     setPaintMode(DEFAULT_MODE);
 }
