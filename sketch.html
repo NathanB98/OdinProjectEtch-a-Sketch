@@ -11,7 +11,18 @@
     <title>Etch-A-Sketch</title>
 </head>
 <body>
-    <button id="gridSizeSelect" onclick="selectGridSize()">Size of Grid</button>
+    <div id="canvasPropertyButtons">
+        <button id="gridSizeSelect" onclick="selectGridSize()">Size of Grid</button>
+        <button id="clearCanvas" onclick="clearCanvas()">Clear Canvas</button>
+    </div>
     <div id="container"></div>
+    <div id="bottomContainer">
+        <input id="colourPicker" type="color" value="#000000">
+        <div id="drawingPropertyButtons">
+            <button id="paintMode">Paint Mode</button>
+            <button id="rainbowMode">Rainbow Mode</button>
+            <button id="eraserTool">Eraser</button>
+        </div>
+    </div>
 </body>
 </html>
