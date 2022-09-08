@@ -16,42 +16,55 @@ let gridVolume = gridLength * gridLength;
 let brushColour = DEFAULT_BRUSH_COLOUR;
 let currentMode = DEFAULT_MODE;
 let pixel;
+let mouseDown = false;
+
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
 
 colourPicker.oninput = (e) => setBrushColour(e.target.value);
-paintBtn.onclick = () => setPaintMode('colour');
-rainbowBtn.onclick = () => setPaintMode('rainbow');
-eraserBtn.onclick = () => setPaintMode('eraser');
+paintBtn.onclick = () => setCurrentMode('colour');
+rainbowBtn.onclick = () => setCurrentMode('rainbow');
+eraserBtn.onclick = () => setCurrentMode('eraser');
 
 function setBrushColour(newColour) {
     brushColour = newColour;
 }
 
-//Creates a 1:1 grid of pixels given a value from GRID_LENGTH
+function setCurrentMode(newMode) {
+    setPaintMode(newMode)
+    currentMode = newMode;
+}
+
 function createCanvisGrid(volume) {
     container.style.gridTemplateColumns = `repeat(${gridLength}, 1fr)`;
     container.style.gridTemplateRows = `repeat(${gridLength}, 1fr)`;
 
-    //Creates each individual 'pixel' in the grid.
     for(let i = 0; i < volume; i++) {
         let gridSquare = document.createElement('div');
 
         gridSquare.classList.add('gridSquare');
-        gridSquare.addEventListener('mousedown', () => {
-            gridSquare.style.backgroundColor = `${brushColour}`;
-        });
-        gridSquare.addEventListener('mouseover', () => {
-            
-        });
-
+        gridSquare.addEventListener('mouseover', changeBrushColour);
+        gridSquare.addEventListener('mousedown', changeBrushColour);
         container.appendChild(gridSquare);
     }
 }
 
+function changeBrushColour(e) {
+    if(e.type === 'mouseover' && !mouseDown) return;
+    if(currentMode === 'rainbow') {
+        const randomR = Math.floor(Math.random() * 256)
+        const randomG = Math.floor(Math.random() * 256)
+        const randomB = Math.floor(Math.random() * 256)
+        e.target.style.backgroundColor = `rgb(${randomR}, ${randomG}, ${randomB})`
+    } else if(currentMode === 'colour') {
+        e.target.style.backgroundColor = brushColour;
+    } else if(currentMode === 'eraser') {
+        e.target.style.backgroundColor = '#FEFEFE';
+    }
+}
 
-//Select grid size and updates to show that new grid in place of the previous grid.
 function selectGridSize() {
     let newGridSize = prompt('Please enter the length of your canvas in pixels. (Max size: 100)');
-    //Converts input to an integer number
     newGridSize = Number(newGridSize);
     
     if(!(newGridSize < 1) && !(newGridSize > 100)) {
@@ -64,7 +77,6 @@ function selectGridSize() {
     }
 }
 
-//Removes the current canvas to make way for another
 function clearGrid() {
     let allPixels = document.querySelectorAll('.gridSquare');
         allPixels.forEach(px => {
@@ -75,28 +87,24 @@ function clearGrid() {
 function setPaintMode(newMode) {
     if(currentMode === 'rainbow') {
         rainbowMode.classList.remove('active');
-        console.log('rainbow deactivated');
     } else if(currentMode === 'colour') {
         paintMode.classList.remove('active');
-        console.log('colour deactiated');
     } else if(currentMode === 'eraser') {
         eraserTool.classList.remove('active');
-        console.log('eraser deactivated');
     }
 
     if(newMode === 'rainbow') {
         rainbowMode.classList.add('active');
-        console.log('rainbow active');
     } else if(newMode === 'colour') {
         paintMode.classList.add('active');
-        console.log('colour active');
     } else if(newMode === 'eraser') {
         eraserTool.classList.add('active');
-        console.log('eraser active');
     }
+
+    console.log(currentMode);
+    console.log(newMode);
 }
 
-//Clears the grid then replaces it with one of the same dimentions
 function clearCanvas() {
     clearGrid();
     createCanvisGrid(gridVolume);
