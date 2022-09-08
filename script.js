@@ -40,11 +40,18 @@ function selectGridSize() {
     }
 }
 
+//Removes the current canvas to make way for another
 function clearGrid() {
     let allPixels = document.querySelectorAll('.gridSquare');
         allPixels.forEach(px => {
             px.remove();
         });
+}
+
+//Clears the grid then replaces it with one of the same dimentions
+function clearCanvas() {
+    clearGrid();
+    createCanvisGrid(GRID_VOLUME);
 }
 
 window.onload = () => {
