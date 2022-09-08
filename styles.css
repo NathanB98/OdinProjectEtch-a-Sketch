@@ -3,22 +3,49 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5rem;
+    gap: 2rem;
+}
+
+#canvasPropertyButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+
 }
 
 #container {
     display: grid;
     width: 480px;
     height: 480px;
+    border: 1px solid black;
 }
 
-#gridSizeSelect {
+button {
     margin-top: 2rem;
     font-size: 18px;
     font-weight: bold;
     padding: 1rem;
 }
 
-.gridSquare {
-    border: 0.1rem solid black;
+#bottomContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem
+}
+
+#drawingPropertyButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+#colourPicker {
+    height: 8rem;
+    width: 8rem;
+    border: 0;
+    background-color: white;
 }
