@@ -8,7 +8,8 @@ body {
 
 #container {
     display: grid;
-    grid-auto-rows: minmax(1px, auto);
+    width: 480px;
+    height: 480px;
 }
 
 #gridSizeSelect {
@@ -20,6 +21,4 @@ body {
 
 .gridSquare {
     border: 0.1rem solid black;
-    height: 2rem;
-    width: 2rem;
 }

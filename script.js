@@ -6,48 +6,22 @@ let GRID_VOLUME = GRID_LENGTH * GRID_LENGTH;
 
 let pixel;
 
-//Updates container div style to divide the grid appropriately given the GRID_LENGTH
-container.style.gridTemplateColumns = `repeat(${GRID_LENGTH}, auto)`;
-
-initialiseCanvas();
-
-//Creates initial 16x16 canvas, updates the pixel object(storing each 'pixel' in the grid), and checks for mouseover on any pixel
-function initialiseCanvas() {
-    createCanvisGrid();
-
-    updatePixelCount();
-
-    checkMouseHover();
-}
-
-//Checks if the users mouse is hovering over any pixel in the grid
-function checkMouseHover() {
-    for(let i = 0; i < pixel.length; i++) {
-        pixel[i].addEventListener('mouseover', () => {
-            pixel[i].style.backgroundColor = 'Red';
-        }
-    )}
-}
-
 //Creates a 1:1 grid of pixels given a value from GRID_LENGTH
-function createCanvisGrid() {
+function createCanvisGrid(volume) {
+    container.style.gridTemplateColumns = `repeat(${GRID_LENGTH}, 1fr)`;
+    container.style.gridTemplateRows = `repeat(${GRID_LENGTH}, 1fr)`;
+
     //Creates each individual 'pixel' in the grid.
-    for(let i = 0; i < GRID_VOLUME; i++) {
+    for(let i = 0; i < volume; i++) {
         let gridSquare = document.createElement('div');
 
         gridSquare.classList.add('gridSquare');
+        gridSquare.addEventListener('mouseover', () => {
+            gridSquare.style.backgroundColor = 'Red';
+        })
 
         container.appendChild(gridSquare);
     }
-    //Sets the style property of container to correctly divide the grid into a 1:1 square
-    container.style.gridTemplateColumns = `repeat(${GRID_LENGTH}, 0fr)`;
-}
-
-//Updates the pixel object, needed if the size of the grid changes
-function updatePixelCount() {
-    //Pixel contains an array-like object with each div/pixel in the grid
-    pixel = null;
-    pixel = document.getElementsByClassName('gridSquare');   
 }
 
 //Select grid size and updates to show that new grid in place of the previous grid.
@@ -57,16 +31,22 @@ function selectGridSize() {
     newGridSize = Number(newGridSize);
     
     if(!(newGridSize < 1) && !(newGridSize > 100)) {
-        let allPixels = document.querySelectorAll('.gridSquare');
-        allPixels.forEach(px => {
-            px.remove();
-        });
-
+        clearGrid();
         GRID_LENGTH = newGridSize;
         GRID_VOLUME = GRID_LENGTH * GRID_LENGTH;
-        initialiseCanvas();
-
+        createCanvisGrid(GRID_VOLUME);
     } else {
         alert('Please enter a valid number (1-100)');
     }
+}
+
+function clearGrid() {
+    let allPixels = document.querySelectorAll('.gridSquare');
+        allPixels.forEach(px => {
+            px.remove();
+        });
+}
+
+window.onload = () => {
+    createCanvisGrid(GRID_VOLUME);
 }
